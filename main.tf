@@ -43,10 +43,26 @@ resource "aws_instance" "lamp" {
   }
 
 
+
+
+   provisioner "chef" {
+
+    environment     = "_default"
+    node_name       = "webserver_${element(var.instancelist, count.index)}"
+    run_list        = ["apache2"]
+    server_url      = "https://${var.chefserverfqdn}/organizations/adityauoa"
+    recreate_client = true
+    user_name       = "chefadmin"
+    user_key        = "${file("/home/terraform/chef_client/files/chefadmin.pem")}"
+    version	    = "13.4.19"
+    ssl_verify_mode = ":verify_none"
+  }
+
+/*
   provisioner "remote-exec" {
     script         = "${path.module}/files/setupclient.sh"
   } 
-
+*/
 
   provisioner "file" {
     source="files/ec2_rsa"
@@ -66,6 +82,7 @@ resource "aws_instance" "lamp" {
     inline =  "cat /home/ubuntu/.ssh/ec2_rsa.pub >> /home/ubuntu/.ssh/authorized_keys" 
   }
 
+
   provisioner "remote-exec" {
     inline         = [ "sudo mkdir -p /opt/chef-repo/.chef",
                        "sudo chmod 777 /opt/chef-repo/.chef"]
@@ -81,13 +98,15 @@ resource "aws_instance" "lamp" {
   }
 
   provisioner "remote-exec" {
-    inline         = [ "sudo chmod 755 /opt/chef-repo/.chef"]
+    inline         = [ "sudo chmod 755 /opt/chef-repo/.chef",
+                       "sudo knife ssl fetch -c /opt/chef-repo/.chef/knife.rb"]
   }
+/*
   provisioner "remote-exec" {
     inline         = ["sudo knife ssl fetch -c /opt/chef-repo/.chef/knife.rb",
                       "sudo knife  bootstrap `hostname` --sudo --ssh-user ubuntu --identity-file /home/ubuntu/.ssh/ec2_rsa --node-name `hostname` -c /opt/chef-repo/.chef/knife.rb"]
   }
-
+*/
 
 }
 
@@ -101,7 +120,7 @@ resource "aws_security_group" "lamp_allow_all" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["142.244.161.39/32","142.244.5.36/32","75.158.126.212/32","172.31.0.0/16"]
+    cidr_blocks = ["142.244.161.85/32","142.244.161.39/32","142.244.5.36/32","75.158.126.212/32","172.31.0.0/16"]
   }
 
   ingress {

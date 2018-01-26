@@ -37,6 +37,6 @@ variable "chefserverfqdn" {
 variable "instancelist" {
   description = "Count of the Chef nodes"
   type = "list"
-  default = ["nodeA","nodeB","nodeC","nodeD","nodeE","nodeF"]
+  default = ["nodeA","nodeB","nodeC","nodeD"]
 }
 

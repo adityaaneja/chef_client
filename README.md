@@ -13,7 +13,7 @@ Currently the code spins up only ubuntu 14.04 instances on AWS
 Usage
 =====
 
-terrform apply -var 'chefserverfqdn=<https://FQDN_of_Chef_Server>' -var 'chefserver=internal_ip_address of chef'
+terrform apply -var 'chefserverfqdn=\<https://FQDN_of_Chef_Server\>' -var 'chefserver=internal_ip_address of chef'
 
 Testing
 =======

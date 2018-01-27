@@ -13,6 +13,8 @@ Currently the code spins up only ubuntu 14.04 instances on AWS
 Usage
 =====
 
+terrform init
+Copy your AWS key and rename it to mykey.pem
 terrform apply -var 'chefserverfqdn=\<https://FQDN_of_Chef_Server\>' -var 'chefserver=internal_ip_address of chef'
 
 Testing

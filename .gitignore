@@ -1,4 +1,4 @@
 terraform.tfstate
 files/*.pem
 .terraform/**
-mykey.pem
+*.pem

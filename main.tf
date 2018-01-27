@@ -53,7 +53,7 @@ resource "aws_instance" "lamp" {
     server_url      = "https://${var.chefserverfqdn}/organizations/adityauoa"
     recreate_client = true
     user_name       = "chefadmin"
-    user_key        = "${file("/home/terraform/chef_client/files/chefadmin.pem")}"
+    user_key        = "${file("${path.module}/files/chefadmin.pem")}"
     version	    = "13.4.19"
     ssl_verify_mode = ":verify_none"
   }
